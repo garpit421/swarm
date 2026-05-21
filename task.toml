@@ -1,0 +1,27 @@
+```toml
+[task]
+name = "swarmbench/global-energy-policy-analysis-2024"
+description = "Analyze and synthesize energy transition policies from 10 countries (Japan, Germany, USA, China, India, UK, France, Brazil, Australia, South Africa). Extract quantitative targets, compare policy approaches, identify gaps against climate goals, and produce comprehensive global analysis with recommendations."
+
+[metadata]
+verifier_type = "executable"
+domain = "knowledge-research"
+coordination_pattern = "fan-out-synthesize"
+human_solving_hours_estimate = 18.5
+human_solving_hours_justification = "10 policy documents × ~45 pages each = 450 pages total. Each requires: document reading/comprehension (25 min × 10 = 4.2h), data extraction to structured format (15 min × 10 = 2.5h), quality checking (10 min × 10 = 1.7h). Cross-document analysis requires: comparative framework development (1.5h), gap analysis against IPCC scenarios (2h), synthesis writing (3h). Final compilation and validation (4h). Total: 18.5 hours for a senior policy analyst."
+
+estimated_sub_agents = 12
+input_token_estimate = 550000
+reference_link = "https://www.iea.org/reports/world-energy-outlook-2023"
+why_multi_agent = "Single agent must process 450+ pages of complex policy text with varying structures and terminology. This exceeds context window limits (550K tokens) and leads to information loss. Multi-agent allows parallel country analysis (10 agents × ~45 pages each), specialized comparative analysis, and focused synthesis across all findings."
+
+[agent]
+timeout_sec = 600
+
+[verifier]
+timeout_sec = 300
+
+[environment]
+cpus = 4
+memory_mb = 8192
+build_timeout_sec = 600
