@@ -1,0 +1,146 @@
+coordination_pattern: fan-out-synthesize
+
+sub_tasks:
+  - id: analyze_japan_policy
+    description: >
+      Analyze japan_energy_strategy_2023.md (45 pages). Extract: 6th Strategic 
+      Energy Plan targets for 2030/2050, renewable capacity additions by 
+      technology (solar, wind, hydro, geothermal), emissions reduction targets 
+      vs 2013 baseline, policy instruments (feed-in tariffs, carbon pricing), 
+      sectoral plans (power, transport, industry, buildings). Output structured 
+      analysis to /logs/agent/intermediate/japan_analysis.json with specific 
+      citations from document.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_germany_policy
+    description: >
+      Analyze germany_energiewende_2030.md (52 pages). Extract: Energiewende 
+      update targets, renewable share targets (65% by 2030), coal phase-out 
+      schedule, hydrogen strategy, carbon price trajectory, sector coupling 
+      approach. Note unique aspects: coal commission recommendations, 
+      industrial transformation funds. Output to 
+      /logs/agent/intermediate/germany_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_usa_policy
+    description: >
+      Analyze usa_inflation_reduction_act.md (38 pages). Extract: IRA 
+      provisions analysis, tax credit details for clean energy, EV incentives, 
+      green bank funding, domestic content requirements, methane fee structure. 
+      Convert investment figures to USD, analyze implementation timeline. 
+      Output to /logs/agent/intermediate/usa_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_china_policy
+    description: >
+      Analyze china_dual_carbon_plan.md (67 pages). Extract: 1+N policy 
+      framework details, carbon peaking before 2030 target, carbon neutrality 
+      before 2060 roadmap, renewable capacity targets (1200 GW by 2030), 
+      coal power controls, carbon market expansion. Note unique aspects: 
+      provincial implementation plans, dual control system. Output to 
+      /logs/agent/intermediate/china_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_india_policy
+    description: >
+      Analyze india_national_energy_plan.md (41 pages). Extract: integrated 
+      energy policy targets, renewable capacity targets (500 GW by 2030), 
+      National Hydrogen Mission details, coal dependency reduction plan, 
+      international solar alliance role, just transition considerations. 
+      Output to /logs/agent/intermediate/india_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_uk_policy
+    description: >
+      Analyze uk_net_zero_strategy.md (49 pages). Extract: Carbon Budget 
+      delivery plan, sectoral decarbonization pathways, North Sea transition 
+      deal, ZEV mandate details, heat pump rollout strategy, carbon border 
+      adjustment mechanism. Note unique aspects: Climate Change Committee 
+      oversight, just transition commission. Output to 
+      /logs/agent/intermediate/uk_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_france_policy
+    description: >
+      Analyze france_energy_climate_law.md (44 pages). Extract: Loi 
+      Énergie-Climat provisions, nuclear fleet strategy (new and existing), 
+      renewable acceleration law, building renovation requirements, transport 
+      decarbonization, carbon budget mechanism. Note unique aspects: nuclear 
+      repowering decisions, low-carbon hydrogen strategy. Output to 
+      /logs/agent/intermediate/france_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_brazil_policy
+    description: >
+      Analyze brazil_energy_matrix.md (36 pages). Extract: renewable energy 
+      expansion plan (focus on hydro, wind, solar), biofuel mandates, Amazon 
+      protection measures, transmission infrastructure investments, green 
+      hydrogen potential analysis. Note unique aspects: ethanol program, 
+      offshore wind potential. Output to 
+      /logs/agent/intermediate/brazil_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_australia_policy
+    description: >
+      Analyze australia_renewables_superpower.md (42 pages). Extract: clean 
+      energy export strategy, renewable energy zone development, critical 
+      minerals strategy, hydrogen export projects, grid modernization, 
+      community energy benefits. Note unique aspects: solar export potential, 
+      critical mineral processing. Output to 
+      /logs/agent/intermediate/australia_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: analyze_south_africa_policy
+    description: >
+      Analyze south_africa_just_transition.md (39 pages). Extract: energy 
+      transition framework, coal dependency reduction plan, Just Energy 
+      Transition Partnership details, renewable IPP program, skills development 
+      strategy, community ownership models. Note unique aspects: coal community 
+      transition, international partnership structure. Output to 
+      /logs/agent/intermediate/south_africa_analysis.json.
+    depends_on: []
+    parallel_group: country_analysis
+
+  - id: perform_comparative_analysis
+    description: >
+      Collect all 10 country analysis files from /logs/agent/intermediate/. 
+      Perform cross-country comparison: standardize all metrics to common 
+      baseline, compare ambition levels, analyze policy instrument effectiveness, 
+      identify technology focus differences. Use reference files 
+      (iea_global_scenarios.json, ipcc_mitigation_pathways.json) for 
+      benchmarking. Output comparative findings to 
+      /logs/agent/intermediate/comparative_analysis.json.
+    depends_on:
+      - analyze_japan_policy
+      - analyze_germany_policy
+      - analyze_usa_policy
+      - analyze_china_policy
+      - analyze_india_policy
+      - analyze_uk_policy
+      - analyze_france_policy
+      - analyze_brazil_policy
+      - analyze_australia_policy
+      - analyze_south_africa_policy
+    parallel_group: comparison
+
+  - id: synthesize_global_report
+    description: >
+      Using country analyses and comparative results, synthesize comprehensive 
+      global energy transition report. Calculate global aggregates (total 
+      renewable capacity, total emissions reduction, total investment). 
+      Perform gap analysis against IPCC pathways. Develop policy 
+      recommendations and implementation roadmap. Create final JSON report at 
+      /logs/agent/global_energy_analysis.json with exact required schema, 
+      ensuring all findings are evidence-based from source documents.
+    depends_on:
+      - perform_comparative_analysis
+    parallel_group: synthesis
